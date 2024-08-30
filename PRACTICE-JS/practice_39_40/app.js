@@ -19,13 +19,13 @@ console.log(getGrade(56));
 
 // 2.
 function colorTraffic(color) {
-  switch(color) {
+  switch (color) {
     case "red":
-      return 'Stop';
+      return "Stop";
     case "yellow":
-      return 'Prepare To Stop';
+      return "Prepare To Stop";
     case "green":
-      return 'Go';
+      return "Go";
     default:
       return "Invalid color";
   }
@@ -33,18 +33,18 @@ function colorTraffic(color) {
 console.log(colorTraffic("red"));
 
 // 3.
-function fruitName(fruit){
-  switch(fruit){
+function fruitName(fruit) {
+  switch (fruit) {
     case "apple":
-      return "Per kg 200"
+      return "Per kg 200";
     case "banana":
-      return "Per kg 300"
+      return "Per kg 300";
     case "orange":
-      return "Per kg 400"
+      return "Per kg 400";
     case "grape":
-      return "Per kg 500"
-      default:
-       return "invalid fruit name"
+      return "Per kg 500";
+    default:
+      return "invalid fruit name";
   }
 }
 console.log(fruitName("orange"));
