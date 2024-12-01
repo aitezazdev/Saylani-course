@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+    h1 {
+      text-align: center;
+      font-size: 50px;
+    }
+    div {
+      text-align: center;
+    }
+    img {
+      border-radius: 50%;
+    }
+    input {
+      width: 300px;
+      padding: 10px 15px;
+    }
+    button {
+      padding: 15px 25px;
+      background-color: rgba(255, 166, 0, 0.388);
+      border-style: none;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+    button:hover {
+      cursor: pointer;
+    }
+  </style>
+
+  <body>
+    <h1>Image Changer</h1>
+    <div>
+      <img
+        width="150"
+        src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+        alt="random image"
+      />
+      <br /><br />
+      <input type="text" id="input-src" placeholder="src" /><br /><br />
+      <input type="text" id="input-alt" placeholder="alt" /><br /><br />
+      <input type="text" id="input-title" placeholder="title" /><br /><br />
+
+      <button>Change</button>
+    </div>
+
+    <script>
+      document.querySelector("button").addEventListener("click", () => {
+        var src = document.querySelector("#input-src").value;
+        var alt = document.querySelector("#input-alt").value;
+        var title = document.querySelector("#input-title").value;
+        if (src || alt || title) {
+          document.querySelector("img").src = src;
+          document.querySelector("img").alt = alt;
+          document.querySelector("img").title = title;
+        }
+      });
+    </script>
+  </body>
+</html>
