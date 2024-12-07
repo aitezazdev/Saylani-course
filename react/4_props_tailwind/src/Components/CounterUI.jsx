@@ -36,8 +36,10 @@ const CounterUI = () => {
           Decrement
         </button>
       </div>
-      {error && <p className="text-red-500">{error}</p>}
-      <CounterOutput count={count} />
+      <div className="flex flex-col gap-1 items-center justify-center">
+        {error && <p className="text-red-500">{error}</p>}
+        <CounterOutput count={count} />
+      </div>
     </div>
   );
 };
