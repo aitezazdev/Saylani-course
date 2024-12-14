@@ -25,10 +25,10 @@ const Navbar = () => {
       name: "Products",
       path: "/products",
     },
-    {
-      name: "Product Details",
-      path: "/product-details",
-    },
+    // {
+    //   name: "Product Details",
+    //   path: "/product-details",
+    // },
   ];
 
   return (
@@ -40,11 +40,7 @@ const Navbar = () => {
               <NavLink
                 key={nav.name}
                 to={nav.path}
-                className={({ isActive }) =>
-                  `text-sm font-medium hover:text-blue-400 ${
-                    isActive ? "text-blue-500 underline" : ""
-                  }`
-                }
+                className="text-sm font-medium hover:text-blue-400"
               >
                 {nav.name}
               </NavLink>
@@ -58,7 +54,7 @@ const Navbar = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/product-details" element={<ProductDetails />} />
+          {/* <Route path="/product-details" element={<ProductDetails />} /> */}
         </Routes>
       </main>
     </>
