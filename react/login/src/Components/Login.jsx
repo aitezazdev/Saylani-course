@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 function Login() {
-  let [userData, setUserData] = useState({ email: "", password: "" });
-  let [error, setError] = useState("");
+  let [userData, setUserData] = useState({ email: '', password: '' });
+  let [error, setError] = useState('');
   let [isSubmitted, setIsSubmitted] = useState();
 
   const handleData = () => {
-    if (userData.email.trim() === "" || userData.password.trim() === "") {
-      setError("Input fields cannot be empty");
+    if (userData.email.trim() === '' || userData.password.trim() === '') {
+      setError('Input fields cannot be empty');
       setIsSubmitted(false);
       return;
     }
-    setError("");
+    setError('');
     setIsSubmitted(true);
     console.log(userData);
   };
@@ -47,15 +47,15 @@ function Login() {
       {error && <p className="text-red-600">{error}</p>}
       {!error && isSubmitted && (
         <div>
-        <div>
-          <span>Email is : </span>
-          <p className="text-lg text-orange-500">{userData.email}</p>
+          <div>
+            <span>Email is : </span>
+            <p className="text-lg text-orange-500">{userData.email}</p>
+          </div>
+          <div>
+            <span>Password is : </span>
+            <p className="text-lg text-orange-500">{userData.password}</p>
+          </div>
         </div>
-        <div>
-          <span>Password is : </span>
-          <p className="text-lg text-orange-500">{userData.password}</p>
-        </div>
-      </div>
       )}
     </div>
   );
