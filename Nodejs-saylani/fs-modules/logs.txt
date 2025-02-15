@@ -1,0 +1,4 @@
+2025-02-02T07:27:35.302Z - John Doe - userID -> 123 - User logged in
+2025-02-02T07:30:02.899Z - zaz - userID -> 18 - User logged in
+2025-02-02T07:30:06.141Z - zaz - userID -> 18 - User logged in
+2025-02-02T07:30:48.741Z - zaz - userID -> 18 - User logout`
