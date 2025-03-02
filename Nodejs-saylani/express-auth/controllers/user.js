@@ -16,32 +16,41 @@ const transport = nodemailer.createTransport({
   },
 });
 
-const mailOptions = {
-  from: "aitezazsikandar@gmail.com",
-  to: "aitezazsikandar@gmail.com",
-  subject: "Sending Email using Node.js",
-  text: "That was easy!",
-};
-
 const userData = {
   id: 123,
   username: "Zaz",
-  password: "password123",
+  password: process.env.PASSWORD,
   role: "user",
 };
 
 const sendEmail = (req, res) => {
   try {
+    const { reciever, subject, text } = req.body;
+
+    if (!reciever || !subject || !text)
+      return res.status(400).json({ message: "All fields are required" });
+
+    const mailOptions = {
+      from: "aitezazsikandar@gmail.com",
+      to: reciever,
+      subject,
+      text,
+    };
+
     transport.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.log(error);
+        // console.log(error);
+        return res
+          .status(500)
+          .json({ message: "Failed to send email", error: error.message });
       } else {
-        console.log("Email sent: " + info.response);
+        // console.log("Email sent: " + info.response);
+        return res.status(200).json({ message: "Email sent successfully" });
       }
     });
-    console.log(result);
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
@@ -93,6 +102,5 @@ const login = async (req, res) => {
     console.log(error.message);
   }
 };
-
 
 module.exports = { register, login, sendEmail };
