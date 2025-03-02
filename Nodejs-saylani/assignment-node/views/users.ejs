@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>Users</title></head>
+<body>
+    <h1>User List</h1>
+    <ul>
+        <% users.forEach(user => { %>
+            <li><%= user.name %> - <%= user.age %> years old</li>
+        <% }); %>
+    </ul>
+    <a href="/">Back Home</a>
+</body>
+</html>

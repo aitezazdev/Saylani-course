@@ -16,9 +16,9 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-    console.log(req.files); // contains uploaded files.
+    console.log(req.files); // contains uploaded files
     console.log(req.body);  // contains other form data
-    res.send({ files: req.files, data: req.body });
+    res.status(201).send({ files: req.files, data: req.body });
 });
 
 app.listen(3000, () => {
