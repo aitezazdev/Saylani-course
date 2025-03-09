@@ -110,7 +110,7 @@ const login = async (req, res) => {
     const token = jwt.sign({ id: isUserExist._id }, process.env.SECRET_KEY);
 
     const { password: _, ...userData } = isUserExist.toObject();
-    
+
     res.status(200).json({ message: "Login successful", data: userData });
 
   } catch (error) {
@@ -122,7 +122,7 @@ const login = async (req, res) => {
 const allUsers = async (req, res) => {
   try {
     const users = await userModel.find();
-    if (!users) return res.status(400).json({ message: "No users found" });
+    if (!users) return res.status(404).json({ message: "No users found" });
 
     res.status(200).json({ message: "All users", data: users });
   } catch (error) {
@@ -130,4 +130,24 @@ const allUsers = async (req, res) => {
   }
 }
 
-module.exports = { register, login, sendEmail, allUsers };
+// delete user
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const userExist = await userModel.findOne({ _id: id });
+
+    if (!userExist) return res.status(404).json({ message: "User not found" });
+
+    const deleteUser = await userModel.deleteOne({ _id: id });
+    res.status(200).json({ message: `User deleted successfully ${deleteUser}` });
+
+  } catch (error) {
+    res.json({
+      message: error.message,
+      status: 404
+    })
+  }
+}
+
+module.exports = { register, login, sendEmail, allUsers, deleteUser };
