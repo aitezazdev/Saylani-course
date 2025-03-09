@@ -2,6 +2,10 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
+const path = require("path");
+const fs = require("fs");
+const { log } = require("console");
+const userModel = require("../models/user.js");
 
 dotenv.config();
 
@@ -23,54 +27,67 @@ const userData = {
   role: "user",
 };
 
-const sendEmail = (req, res) => {
+const sendEmail = async (req, res) => {
   try {
-    const { reciever, subject, text } = req.body;
+    const { receiver, subject, name } = req.body;
 
-    if (!reciever || !subject || !text)
+    if (!receiver || !subject || !name) {
       return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const templatePath = path.join(
+      __dirname,
+      "../utils/emailTemplate/email.html"
+    );
+    let emailTemplate = fs.readFileSync(templatePath, "utf8");
+
+    emailTemplate = emailTemplate.replace("{{name}}", name);
 
     const mailOptions = {
-      from: "aitezazsikandar@gmail.com",
-      to: reciever,
+      from: process.env.EMAIL_USER,
+      to: receiver,
       subject,
-      text,
+      html: emailTemplate,
     };
 
-    transport.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        // console.log(error);
-        return res
-          .status(500)
-          .json({ message: "Failed to send email", error: error.message });
-      } else {
-        // console.log("Email sent: " + info.response);
-        return res.status(200).json({ message: "Email sent successfully" });
-      }
+    const info = await transport.sendMail(mailOptions);
+    log("Email sent:", info.messageId);
+    return res.status(200).json({
+      message: "Email sent successfully",
+      info: {
+        messageId: info.messageId,
+        recipient: receiver,
+      },
     });
   } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error("Email sending error:", error.message);
+    return res
+      .status(500)
+      .json({ message: "Failed to send email", error: error.message });
   }
 };
 
 const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+
+    const userExist = await userModel.findOne({ email: email });
+    if (userExist) return res.status(400).json({ message: `User already exists : ${email}` });
+
     if (!username || !email || !password)
       return res.status(400).json({ message: "All fields are required" });
 
     const hashPassword = await bcrypt.hash(password, 10);
 
+    const newUser = userModel.create({
+      userName: username,
+      email,
+      password: hashPassword,
+    })
+
     res.status(201).send({
       message: "User created successfully",
-      user: {
-        id: userData.id,
-        username,
-        email,
-        hashPassword,
-        role: userData.role,
-      },
+      data: newUser
     });
   } catch (error) {
     console.log(error.message);
