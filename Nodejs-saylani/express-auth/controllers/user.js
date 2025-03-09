@@ -96,28 +96,38 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    const comparePassword = await bcrypt.compare(password, userData.password);
+    const isUserExist = await userModel.findOne({ email: email });
+    if (!isUserExist) return res.status(404).json({ message: "User not found" });
+
+    const comparePassword = await bcrypt.compare(password, isUserExist.password);
+    if(!comparePassword) return res.status(400).json({ message: "Invalid credentials" });
 
     if (!comparePassword)
       return res.status(400).json({ message: "Invalid credentials" });
 
-    if (username === userData.username) {
-      const token = jwt.sign(userData, process.env.SECRET_KEY, {
-        expiresIn: "5h",
-      });
+    const token = jwt.sign({ id: isUserExist._id }, process.env.SECRET_KEY);
 
-      res.json({
-        message: "Login successful",
-        token,
-      });
-    } else {
-      res.status(400).json({ message: "Invalid credentials" });
-    }
+    const { password: _, ...userData } = isUserExist.toObject();
+    
+    res.status(200).json({ message: "Login successful", data: userData });
+
   } catch (error) {
     console.log(error.message);
   }
 };
 
-module.exports = { register, login, sendEmail };
+// all users
+const allUsers = async (req, res) => {
+  try {
+    const users = await userModel.find();
+    if (!users) return res.status(400).json({ message: "No users found" });
+
+    res.status(200).json({ message: "All users", data: users });
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+module.exports = { register, login, sendEmail, allUsers };
