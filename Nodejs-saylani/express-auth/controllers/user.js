@@ -6,6 +6,7 @@ const path = require("path");
 const fs = require("fs");
 const { log } = require("console");
 const userModel = require("../models/user.js");
+const errorHandler = require("../utils/errorHandler.js");
 
 dotenv.config();
 
@@ -60,10 +61,7 @@ const sendEmail = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Email sending error:", error.message);
-    return res
-      .status(500)
-      .json({ message: "Failed to send email", error: error.message });
+    errorHandler(res, error, 500);
   }
 };
 
@@ -90,7 +88,7 @@ const register = async (req, res) => {
       data: newUser
     });
   } catch (error) {
-    console.log(error.message);
+    errorHandler(res, error, 500);
   }
 };
 
@@ -114,7 +112,7 @@ const login = async (req, res) => {
     res.status(200).json({ message: "Login successful", data: userData });
 
   } catch (error) {
-    console.log(error.message);
+    errorHandler(res, error, 500);
   }
 };
 
@@ -126,7 +124,7 @@ const allUsers = async (req, res) => {
 
     res.status(200).json({ message: "All users", data: users });
   } catch (error) {
-    console.log(error.message);
+    errorHandler(res, error, 500);
   }
 }
 
@@ -143,10 +141,7 @@ const deleteUser = async (req, res) => {
     res.status(200).json({ message: `User deleted successfully ${deleteUser}` });
 
   } catch (error) {
-    res.json({
-      message: error.message,
-      status: 404
-    })
+    errorHandler(res, error, 500);
   }
 }
 
