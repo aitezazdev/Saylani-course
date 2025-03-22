@@ -50,6 +50,12 @@ app.get("/users", async (req, res) => {
   }
 });
 
+// app.get("/find", async (req, res) => {
+//   // const users = await User.find({ age: { $gte: 25, $lte: 35}})
+//   // const users = User.find({ $or: [{ age: { $lt: 18 } }, { $and: [{status: "premium"}, {city: "New York"}]}] });
+//   // 
+// });
+
 // $gt -> greater than
 // $gte -> greater than or equal to
 // $lt -> less than
@@ -59,9 +65,6 @@ app.get("/users", async (req, res) => {
 // $nin -> not in
 // $regex -> regular expression
 // $exists -> exists
-
-
-
 
 // mongoDB cursor -> used to iterate over the results of a query
 app.get("/cursor", async (req, res) => {
@@ -80,4 +83,3 @@ app.get("/cursor", async (req, res) => {
 app.listen(3000, () => {
   console.log("Example app listening on port 3000!");
 });
-
